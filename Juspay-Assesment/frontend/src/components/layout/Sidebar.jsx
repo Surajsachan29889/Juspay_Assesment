@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import logo from '@/assets/logo.svg';
 import {
   ChevronRight,
   ChevronDown,
@@ -73,7 +74,7 @@ export function Sidebar({ collapsed }) {
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 py-5 border-b border-sidebar-border">
         <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-foreground">
-          <span className="text-background font-bold text-sm">B</span>
+          <img src={logo} alt="Logo" className="w-full h-full object-contain p-1" />
         </div>
         {!collapsed && (
           <span className="text-foreground font-semibold text-lg">ByeWind</span>
