@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design System - ByeWind SaaS Dashboard - Pixel Perfect */
+@layer base {
+  :root {
+    /* Light Theme - Default */
+    --background: 220 10% 6%;
+    --foreground: 0 0% 98%;
+    
+    --card: 220 10% 10%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 220 10% 10%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 0 0% 98%;
+    --primary-foreground: 220 10% 6%;
+    
+    --secondary: 220 10% 14%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 220 10% 16%;
+    --muted-foreground: 220 5% 55%;
+    
+    --accent: 180 50% 50%;
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 98%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 220 10% 6%;
+    
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 98%;
+    
+    --border: 220 10% 18%;
+    --input: 220 10% 18%;
+    --ring: 180 50% 50%;
+    
+    /* Sidebar */
+    --sidebar: 220 10% 8%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-muted: 220 5% 55%;
+    --sidebar-border: 220 10% 14%;
+    --sidebar-accent: 180 50% 50%;
+    --sidebar-active: 220 10% 12%;
+    
+    /* Charts - Pixel Perfect Colors */
+    --chart-teal: 180 45% 65%;
+    --chart-teal-light: 180 40% 75%;
+    --chart-purple: 270 60% 65%;
+    --chart-green: 160 55% 65%;
+    --chart-blue: 200 70% 60%;
+    --chart-orange: 35 85% 65%;
+    
+    /* Metric Card Background - Light blue tint */
+    --metric-card-bg: 200 35% 92%;
+    --metric-card-border: 200 30% 85%;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    
+    --radius: 0.75rem;
+  }
+
+  .light {
+    /* Light Theme */
+    --background: 210 10% 95%;
+    --foreground: 0 0% 20%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+    
+    --primary: 0 0% 20%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 210 10% 96%;
+    --secondary-foreground: 0 0% 20%;
+    
+    --muted: 210 10% 93%;
+    --muted-foreground: 0 0% 45%;
+    
+    --accent: 180 50% 50%;
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 20%;
+    
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+    
+    --border: 210 10% 90%;
+    --input: 210 10% 90%;
+    --ring: 180 50% 50%;
+    
+    /* Sidebar */
+    --sidebar: 210 10% 98%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-muted: 0 0% 45%;
+    --sidebar-border: 210 10% 92%;
+    --sidebar-accent: 180 50% 50%;
+    --sidebar-active: 200 35% 95%;
+    
+    /* Charts - Same colors */
+    --chart-teal: 180 45% 65%;
+    --chart-teal-light: 180 40% 75%;
+    --chart-purple: 270 60% 65%;
+    --chart-green: 160 55% 65%;
+    --chart-blue: 200 70% 60%;
+    --chart-orange: 35 85% 65%;
+    
+    /* Metric Card Background */
+    --metric-card-bg: 200 35% 92%;
+    --metric-card-border: 200 30% 85%;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+}
+
+@layer components {
+  /* Status Badge Styles */
+  .status-badge {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium;
+  }
+  
+  .status-dot {
+    @apply w-1.5 h-1.5 rounded-full;
+  }
+  
+  .status-in-progress {
+    color: hsl(217, 91%, 60%);
+  }
+  
+  .status-in-progress .status-dot {
+    background-color: hsl(217, 91%, 60%);
+  }
+  
+  .status-complete {
+    color: hsl(142, 71%, 45%);
+  }
+  
+  .status-complete .status-dot {
+    background-color: hsl(142, 71%, 45%);
+  }
+  
+  .status-pending {
+    color: hsl(38, 92%, 50%);
+  }
+  
+  .status-pending .status-dot {
+    background-color: hsl(38, 92%, 50%);
+  }
+  
+  .status-approved {
+    color: hsl(142, 71%, 45%);
+  }
+  
+  .status-approved .status-dot {
+    background-color: hsl(142, 71%, 45%);
+  }
+  
+  .status-rejected {
+    @apply text-muted-foreground;
+  }
+  
+  .status-rejected .status-dot {
+    @apply bg-muted-foreground;
+  }
+  
+  /* Metric Card */
+  .metric-card {
+    background: hsl(var(--metric-card-bg));
+    border: 1px solid hsl(var(--metric-card-border));
+    @apply rounded-xl p-5 transition-all duration-200;
+  }
+  
+  .metric-card:hover {
+    @apply shadow-md;
+    transform: translateY(-1px);
+  }
+  
+  /* Nav Item Active */
+  .nav-item-active {
+    @apply bg-sidebar-active rounded-lg;
+  }
+  
+  /* Chart container */
+  .chart-container {
+    @apply w-full h-full;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn var(--transition-normal) ease-in-out;
+  }
+  
+  .animate-slide-in {
+    animation: slideIn var(--transition-normal) ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn var(--transition-normal) ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1); 
+  }
+}
+
+/* Debug wrapper */
+@layer base {
+  [data-debug-wrapper="true"] {
+    display: contents !important;
+  }
+}
