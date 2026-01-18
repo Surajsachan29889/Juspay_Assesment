@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
+import { useTheme } from '@/context/ThemeContext';
 import {
   LineChart,
   Line,
@@ -38,32 +39,38 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export function RevenueChart() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  const currentWeekColor = isDark ? '#A8A4FF' : '#1C1C1C';
+  
   return (
-    <Card className="p-5 bg-card border border-border rounded-xl">
-      {/* Header with Legend */}
-      <div className="flex items-center gap-6 mb-4">
+    <Card className="p-3 md:p-4 bg-card rounded-xl flex flex-col flex-1 min-h-0 w-full">
+      <div className="flex flex-wrap items-center gap-3 md:gap-5 mb-2 md:mb-3 flex-shrink-0">
         <h3 className="text-sm font-semibold text-foreground">Revenue</h3>
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-0.5 bg-foreground rounded-full" />
+            <span 
+              className="w-2.5 h-2.5 rounded-full" 
+              style={{ backgroundColor: currentWeekColor }}
+            />
             <span className="text-xs text-muted-foreground">Current Week</span>
             <span className="text-xs font-semibold text-foreground">$58,211</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-3 h-0.5 border-t border-dashed border-muted-foreground" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#A8C5DA]" />
             <span className="text-xs text-muted-foreground">Previous Week</span>
             <span className="text-xs font-semibold text-foreground">$68,768</span>
           </div>
         </div>
       </div>
       
-      <div className="h-[220px]">
+      <div className="flex-1 min-h-[200px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data}>
+          <ComposedChart data={data} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="colorCurrent" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#A8D4E6" stopOpacity={0.4}/>
-                <stop offset="95%" stopColor="#A8D4E6" stopOpacity={0.05}/>
+                <stop offset="5%" stopColor="#A8C5DA" stopOpacity={0.3}/>
+                <stop offset="95%" stopColor="#A8C5DA" stopOpacity={0.0}/>
               </linearGradient>
             </defs>
             <CartesianGrid 
@@ -75,12 +82,14 @@ export function RevenueChart() {
               dataKey="month" 
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              padding={{ left: 0, right: 0 }}
+              tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
             />
             <YAxis 
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              width={32}
+              tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
               tickFormatter={(value) => `${value}M`}
               domain={[0, 30]}
             />
@@ -95,20 +104,20 @@ export function RevenueChart() {
               type="monotone" 
               dataKey="currentWeek" 
               name="Current Week"
-              stroke="#1a1a2e"
-              strokeWidth={2}
+              stroke={currentWeekColor}
+              strokeWidth={3}
               dot={false}
-              activeDot={{ r: 4, fill: '#1a1a2e' }}
+              activeDot={{ r: 4, fill: currentWeekColor }}
             />
             <Line 
               type="monotone" 
               dataKey="previousWeek" 
               name="Previous Week"
-              stroke="#888888"
-              strokeWidth={2}
-              strokeDasharray="5 5"
+              stroke="#A8C5DA"
+              strokeWidth={3}
+              strokeDasharray="8 4"
               dot={false}
-              activeDot={{ r: 4, fill: '#888888' }}
+              activeDot={{ r: 4, fill: '#A8C5DA' }}
             />
           </ComposedChart>
         </ResponsiveContainer>

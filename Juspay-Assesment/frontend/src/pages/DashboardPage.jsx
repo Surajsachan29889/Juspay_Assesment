@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { memo, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { MetricCards } from '@/components/dashboard/MetricCards';
-import { ProjectionsChart } from '@/components/dashboard/ProjectionsChart';
-import { RevenueChart } from '@/components/dashboard/RevenueChart';
 import { RevenueByLocation } from '@/components/dashboard/RevenueByLocation';
 import { TopSellingProducts } from '@/components/dashboard/TopSellingProducts';
-import { TotalSalesChart } from '@/components/dashboard/TotalSalesChart';
+
+const ProjectionsChart = lazy(() => import('@/components/dashboard/ProjectionsChart').then(module => ({ default: module.ProjectionsChart })));
+const RevenueChart = lazy(() => import('@/components/dashboard/RevenueChart').then(module => ({ default: module.RevenueChart })));
+const TotalSalesChart = lazy(() => import('@/components/dashboard/TotalSalesChart').then(module => ({ default: module.TotalSalesChart })));
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
+      staggerChildren: 0.08,
+      delayChildren: 0.1
     }
   }
 };
@@ -22,62 +24,67 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3 }
+    transition: { 
+      duration: 0.4,
+      ease: [0.4, 0, 0.2, 1]
+    }
   }
 };
 
-export function DashboardPage() {
+const ChartSkeleton = () => (
+  <div className="h-[200px] bg-muted/50 rounded-xl animate-pulse" />
+);
+
+export const DashboardPage = memo(() => {
   return (
     <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-6"
+      className="space-y-4 md:space-y-6"
     >
-      {/* Page Title */}
       <motion.h1 
         variants={itemVariants}
-        className="text-lg font-semibold text-foreground"
+        className="text-lg md:text-xl font-semibold text-foreground"
       >
         eCommerce
       </motion.h1>
 
-      {/* Top Row - Metrics and Projections */}
-      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left - Metric Cards */}
-        <div className="grid grid-cols-2 gap-4">
+      <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
           <MetricCards />
         </div>
         
-        {/* Right - Projections vs Actuals */}
-        <ProjectionsChart />
+        <Suspense fallback={<ChartSkeleton />}>
+          <ProjectionsChart />
+        </Suspense>
       </motion.div>
 
-      {/* Middle Row - Revenue and Location */}
-      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Revenue Chart - Takes 3 columns */}
-        <div className="lg:col-span-3">
-          <RevenueChart />
+      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-10 gap-4 md:gap-6 [&>div]:flex">
+        <div className="lg:col-span-7">
+          <Suspense fallback={<ChartSkeleton />}>
+            <RevenueChart />
+          </Suspense>
         </div>
         
-        {/* Revenue by Location - Takes 2 columns */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <RevenueByLocation />
         </div>
       </motion.div>
 
-      {/* Bottom Row - Products and Sales */}
-      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Top Selling Products - Takes 3 columns */}
-        <div className="lg:col-span-3">
+      <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-10 gap-4 md:gap-6 [&>div]:flex">
+        <div className="lg:col-span-7">
           <TopSellingProducts />
         </div>
         
-        {/* Total Sales - Takes 2 columns */}
-        <div className="lg:col-span-2">
-          <TotalSalesChart />
+        <div className="lg:col-span-3">
+          <Suspense fallback={<ChartSkeleton />}>
+            <TotalSalesChart />
+          </Suspense>
         </div>
       </motion.div>
     </motion.div>
   );
-}
+});
+
+DashboardPage.displayName = 'DashboardPage';

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 import {
   Table,
   TableBody,
@@ -8,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { motion } from 'framer-motion';
 
 const products = [
   { name: 'ASOS Ridley High Waist', price: '$79.49', quantity: 82, amount: '$6,518.18' },
@@ -16,19 +16,36 @@ const products = [
   { name: 'Half Sleeve Shirt', price: '$39.99', quantity: 64, amount: '$2,559.36' },
   { name: 'Lightweight Jacket', price: '$20.00', quantity: 184, amount: '$3,680.00' },
   { name: 'Marco Shoes', price: '$79.49', quantity: 64, amount: '$1,965.81' },
+  { name: 'Classic Denim Jeans', price: '$59.99', quantity: 120, amount: '$7,198.80' },
+  { name: 'Wool Blend Coat', price: '$189.00', quantity: 28, amount: '$5,292.00' },
+  { name: 'Cotton Polo T-Shirt', price: '$34.99', quantity: 95, amount: '$3,324.05' },
+  { name: 'Leather Crossbody Bag', price: '$145.00', quantity: 42, amount: '$6,090.00' },
+  { name: 'Running Sneakers', price: '$89.99', quantity: 76, amount: '$6,839.24' },
+  { name: 'Slim Fit Chinos', price: '$64.50', quantity: 58, amount: '$3,741.00' },
+  { name: 'Knit Sweater', price: '$72.00', quantity: 91, amount: '$6,552.00' },
+  { name: 'Canvas Backpack', price: '$45.99', quantity: 134, amount: '$6,162.66' },
+  { name: 'Silk Scarf', price: '$28.00', quantity: 167, amount: '$4,676.00' },
+  { name: 'Linen Blazer', price: '$156.00', quantity: 35, amount: '$5,460.00' },
 ];
 
-export function TopSellingProducts() {
+export const TopSellingProducts = memo(() => {
   return (
-    <Card className="p-5 bg-card border border-border rounded-xl">
-      <h3 className="text-sm font-semibold text-foreground mb-4">Top Selling Products</h3>
-      <Table>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+      className="w-full flex-1 flex flex-col min-h-0"
+    >
+      <Card className="p-4 md:p-5 bg-card rounded-xl flex flex-col flex-1 min-h-0">
+        <h3 className="text-sm font-semibold text-foreground mb-4 flex-shrink-0">Top Selling Products</h3>
+        <div className="overflow-auto h-[280px]">
+          <Table>
         <TableHeader>
-          <TableRow className="hover:bg-transparent border-border">
-            <TableHead className="text-xs text-muted-foreground font-medium h-8">Name</TableHead>
-            <TableHead className="text-xs text-muted-foreground font-medium h-8">Price</TableHead>
-            <TableHead className="text-xs text-muted-foreground font-medium h-8">Quantity</TableHead>
-            <TableHead className="text-xs text-muted-foreground font-medium text-right h-8">Amount</TableHead>
+          <TableRow className="hover:bg-transparent border-border sticky top-0 bg-card z-10">
+            <TableHead className="text-xs text-muted-foreground font-medium h-8 bg-card">Name</TableHead>
+            <TableHead className="text-xs text-muted-foreground font-medium h-8 bg-card">Price</TableHead>
+            <TableHead className="text-xs text-muted-foreground font-medium h-8 bg-card">Quantity</TableHead>
+            <TableHead className="text-xs text-muted-foreground font-medium text-right h-8 bg-card">Amount</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -47,7 +64,11 @@ export function TopSellingProducts() {
             </motion.tr>
           ))}
         </TableBody>
-      </Table>
-    </Card>
+        </Table>
+        </div>
+      </Card>
+    </motion.div>
   );
-}
+});
+
+TopSellingProducts.displayName = 'TopSellingProducts';

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Bug, UserPlus, Bell, Pencil, Trash2 } from 'lucide-react';
+import { Bug, UserPlus, Bell } from 'lucide-react';
 
 const notifications = [
   { id: 1, icon: Bug, message: 'You have a bug that needs...', time: 'Just now', type: 'bug' },
@@ -35,13 +35,17 @@ export function RightSidebar() {
       animate={{ width: 280, opacity: 1 }}
       exit={{ width: 0, opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="border-l border-border bg-background overflow-hidden flex-shrink-0"
+      className="border-l border-border bg-background overflow-hidden flex-shrink-0 hidden lg:flex flex-col"
+      role="complementary"
+      aria-label="Notifications and activities"
     >
-      <ScrollArea className="h-full">
+      <div className="h-14 flex items-center px-4 border-b border-border flex-shrink-0">
+        <h2 className="text-sm font-semibold text-foreground">Notifications</h2>
+      </div>
+
+      <ScrollArea className="flex-1">
         <div className="p-4 space-y-6">
-          {/* Notifications */}
           <section>
-            <h3 className="text-sm font-semibold text-foreground mb-3">Notifications</h3>
             <div className="space-y-2">
               {notifications.map((notification) => (
                 <motion.div
@@ -51,7 +55,7 @@ export function RightSidebar() {
                   transition={{ duration: 0.2 }}
                   className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted transition-colors cursor-pointer group"
                 >
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-muted">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-muted flex-shrink-0">
                     <notification.icon className="w-4 h-4 text-muted-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -63,7 +67,6 @@ export function RightSidebar() {
             </div>
           </section>
 
-          {/* Activities */}
           <section>
             <h3 className="text-sm font-semibold text-foreground mb-3">Activities</h3>
             <div className="space-y-2">
@@ -75,7 +78,7 @@ export function RightSidebar() {
                   transition={{ duration: 0.2 }}
                   className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted transition-colors cursor-pointer"
                 >
-                  <Avatar className="w-8 h-8">
+                  <Avatar className="w-8 h-8 flex-shrink-0">
                     <AvatarImage src={activity.avatar} alt={activity.name} />
                     <AvatarFallback>{activity.name.charAt(0)}</AvatarFallback>
                   </Avatar>
@@ -88,7 +91,6 @@ export function RightSidebar() {
             </div>
           </section>
 
-          {/* Contacts */}
           <section>
             <h3 className="text-sm font-semibold text-foreground mb-3">Contacts</h3>
             <div className="space-y-1">
@@ -100,7 +102,7 @@ export function RightSidebar() {
                   transition={{ duration: 0.2 }}
                   className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors cursor-pointer"
                 >
-                  <Avatar className="w-8 h-8">
+                  <Avatar className="w-8 h-8 flex-shrink-0">
                     <AvatarImage src={contact.avatar} alt={contact.name} />
                     <AvatarFallback>{contact.name.charAt(0)}</AvatarFallback>
                   </Avatar>

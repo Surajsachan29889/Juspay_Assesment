@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 import {
   BarChart,
   Bar,
@@ -22,7 +23,7 @@ const data = [
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
+      <div className="bg-card rounded-lg p-3">
         <p className="text-sm font-medium text-foreground mb-1">{label}</p>
         {payload.map((entry, index) => (
           <p key={index} className="text-xs text-muted-foreground">
@@ -35,13 +36,18 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export function ProjectionsChart() {
+export const ProjectionsChart = memo(() => {
   return (
-    <Card className="p-5 bg-card border border-border rounded-xl">
-      <h3 className="text-sm font-semibold text-foreground mb-4">Projections vs Actuals</h3>
-      <div className="h-[200px]">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card className="p-4 md:p-5 bg-card rounded-xl">
+        <h3 className="text-sm font-semibold text-foreground mb-4">Projections vs Actuals</h3>
+        <div className="h-[180px] md:h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} barGap={0} barCategoryGap="20%">
+          <BarChart data={data} barGap={0} barCategoryGap="60%" barSize={18} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
             <CartesianGrid 
               strokeDasharray="3 3" 
               vertical={false} 
@@ -52,6 +58,7 @@ export function ProjectionsChart() {
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
+              padding={{ left: 10, right: 10 }}
             />
             <YAxis 
               axisLine={false}
@@ -60,25 +67,29 @@ export function ProjectionsChart() {
               tickFormatter={(value) => `${value}M`}
               domain={[0, 30]}
               ticks={[0, 10, 20, 30]}
+              width={35}
             />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--muted) / 0.3)' }} />
             <Bar 
               dataKey="actuals" 
               name="Actuals"
               stackId="a"
-              fill="#A8D4D4"
+              fill="#A8C5DA"
               radius={[0, 0, 0, 0]}
             />
             <Bar 
               dataKey="projections" 
               name="Projections"
               stackId="a"
-              fill="#7EC8C8"
+              fill="#E5ECF6"
               radius={[4, 4, 0, 0]}
             />
           </BarChart>
         </ResponsiveContainer>
-      </div>
-    </Card>
+        </div>
+      </Card>
+    </motion.div>
   );
-}
+});
+
+ProjectionsChart.displayName = 'ProjectionsChart';

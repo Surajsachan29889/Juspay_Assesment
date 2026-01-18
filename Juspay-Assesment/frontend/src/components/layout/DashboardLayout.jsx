@@ -11,33 +11,29 @@ export function DashboardLayout() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      {/* Left Sidebar */}
       <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
       
-      {/* Main Content Area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
         <Header 
           onToggleRightSidebar={() => setRightSidebarVisible(!rightSidebarVisible)}
           rightSidebarVisible={rightSidebarVisible}
         />
         
-        <div className="flex flex-1 overflow-hidden">
-          {/* Main Content */}
-          <motion.main 
-            className="flex-1 overflow-auto p-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Outlet />
-          </motion.main>
-          
-          {/* Right Sidebar */}
-          {rightSidebarVisible && (
-            <RightSidebar />
-          )}
-        </div>
+        <motion.main 
+          className="flex-1 overflow-auto p-4 md:p-6 min-w-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          role="main"
+          aria-label="Main content"
+        >
+          <Outlet />
+        </motion.main>
       </div>
+      
+      {rightSidebarVisible && (
+        <RightSidebar />
+      )}
     </div>
   );
 }

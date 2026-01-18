@@ -6,37 +6,44 @@ import logo from '@/assets/logo.svg';
 import {
   ChevronRight,
   ChevronDown,
-  LayoutDashboard,
-  ShoppingCart,
-  FolderKanban,
-  GraduationCap,
-  User,
-  FileText,
-  Target,
-  File,
-  Users,
-  Settings,
-  Building2,
-  BookOpen,
-  MessageSquare,
-  Star
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+import defaultIcon from '@/assets/default.svg';
+import eCommerceIcon from '@/assets/eCommerce.svg';
+import projectIcon from '@/assets/project.svg';
+import coursesIcon from '@/assets/courses.svg';
+import profileIcon from '@/assets/profile.svg';
+import accountIcon from '@/assets/account.svg';
+import corporateIcon from '@/assets/corporate.svg';
+import blogIcon from '@/assets/blog.svg';
+import socialIcon from '@/assets/social.svg';
+
+function SvgIcon({ src, className, alt = '' }) {
+  return (
+    <img 
+      src={src} 
+      alt={alt} 
+      className={cn(className, "dark:brightness-0 dark:invert")}
+      style={{ width: '1.25rem', height: '1.25rem' }}
+    />
+  );
+}
+
 const navItems = {
   favorites: [
-    { name: 'Overview', path: '/dashboard', icon: Star },
-    { name: 'Projects', path: '/projects', icon: FolderKanban },
+    { name: 'Overview', path: '/dashboard' },
+    { name: 'Projects', path: '/projects' },
   ],
   dashboards: [
-    { name: 'Default', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'eCommerce', path: '/orders', icon: ShoppingCart },
-    { name: 'Projects', path: '/projects', icon: FolderKanban },
-    { name: 'Online Courses', path: '/courses', icon: GraduationCap },
+    { name: 'Default', path: '/dashboard', icon: defaultIcon },
+    { name: 'eCommerce', path: '/orders', icon: eCommerceIcon },
+    { name: 'Projects', path: '/projects', icon: projectIcon },
+    { name: 'Online Courses', path: '/courses', icon: coursesIcon },
   ],
   pages: {
     'User Profile': {
-      icon: User,
+      icon: profileIcon,
       children: [
         { name: 'Overview', path: '/profile' },
         { name: 'Projects', path: '/profile/projects' },
@@ -45,10 +52,10 @@ const navItems = {
         { name: 'Followers', path: '/profile/followers' },
       ]
     },
-    'Account': { icon: Settings, path: '/account' },
-    'Corporate': { icon: Building2, path: '/corporate' },
-    'Blog': { icon: BookOpen, path: '/blog' },
-    'Social': { icon: MessageSquare, path: '/social' },
+    'Account': { icon: accountIcon, path: '/account' },
+    'Corporate': { icon: corporateIcon, path: '/corporate' },
+    'Blog': { icon: blogIcon, path: '/blog' },
+    'Social': { icon: socialIcon, path: '/social' },
   }
 };
 
@@ -67,11 +74,15 @@ export function Sidebar({ collapsed }) {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <aside className={cn(
-      "flex flex-col bg-sidebar border-r border-sidebar-border transition-all duration-300",
-      collapsed ? "w-16" : "w-[250px]"
-    )}>
-      {/* Logo */}
+    <aside 
+      className={cn(
+        "flex flex-col bg-sidebar border-r border-sidebar-border transition-all duration-300 z-10",
+        collapsed ? "w-16" : "w-[250px]",
+        "hidden md:flex"
+      )}
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div className="flex items-center gap-3 px-4 py-5 border-b border-sidebar-border">
         <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-foreground">
           <img src={logo} alt="Logo" className="w-full h-full object-contain p-1" />
@@ -82,54 +93,71 @@ export function Sidebar({ collapsed }) {
       </div>
 
       <ScrollArea className="flex-1 px-3 py-4">
-        {/* Favorites Section */}
         <div className="mb-6">
           {!collapsed && (
-            <div className="flex items-center gap-4 px-3 mb-2">
-              <span className="text-xs font-medium text-sidebar-muted uppercase tracking-wider">Favorites</span>
-              <span className="text-xs text-sidebar-muted">Recently</span>
+            <div className="flex items-center gap-4 px-3 mb-3">
+              <span className="text-xs font-medium text-sidebar-muted">Favorites</span>
+              <span className="text-xs text-sidebar-muted/60">Recently</span>
             </div>
           )}
-          <nav className="space-y-0.5">
+          <nav className="space-y-1">
             {navItems.favorites.map((item) => (
-              <NavItem
+              <NavLink
                 key={item.path + item.name}
-                item={item}
-                collapsed={collapsed}
-                isActive={isActive(item.path)}
-                isFavorite
-              />
+                to={item.path}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2 text-sm transition-colors",
+                  isActive(item.path)
+                    ? "text-sidebar-foreground"
+                    : "text-sidebar-muted hover:text-sidebar-foreground"
+                )}
+              >
+                {!collapsed && (
+                  <>
+                    <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                    <span>{item.name}</span>
+                  </>
+                )}
+              </NavLink>
             ))}
           </nav>
         </div>
 
-        {/* Dashboards Section */}
         <div className="mb-6">
           {!collapsed && (
-            <div className="px-3 mb-2">
-              <span className="text-xs font-medium text-sidebar-muted uppercase tracking-wider">Dashboards</span>
+            <div className="px-3 mb-3">
+              <span className="text-xs font-medium text-sidebar-muted">Dashboards</span>
             </div>
           )}
-          <nav className="space-y-0.5">
+          <nav className="space-y-1">
             {navItems.dashboards.map((item) => (
-              <NavItem
+              <NavLink
                 key={item.path + item.name}
-                item={item}
-                collapsed={collapsed}
-                isActive={isActive(item.path)}
-              />
+                to={item.path}
+                className={cn(
+                  "flex items-center gap-2 py-2 text-sm transition-colors relative",
+                  isActive(item.path)
+                    ? "text-sidebar-foreground bg-sidebar-active rounded-r-lg pl-3 pr-3 border-l-[3px] border-sidebar-foreground"
+                    : "text-sidebar-foreground hover:bg-sidebar-active rounded-lg px-3"
+                )}
+              >
+                {!isActive(item.path) && (
+                  <ChevronRight className="w-4 h-4 text-sidebar-muted flex-shrink-0" />
+                )}
+                <SvgIcon src={item.icon} className="w-5 h-5 opacity-70 flex-shrink-0" alt={item.name} />
+                {!collapsed && <span>{item.name}</span>}
+              </NavLink>
             ))}
           </nav>
         </div>
 
-        {/* Pages Section */}
         <div>
           {!collapsed && (
-            <div className="px-3 mb-2">
-              <span className="text-xs font-medium text-sidebar-muted uppercase tracking-wider">Pages</span>
+            <div className="px-3 mb-3">
+              <span className="text-xs font-medium text-sidebar-muted">Pages</span>
             </div>
           )}
-          <nav className="space-y-0.5">
+          <nav className="space-y-1">
             {Object.entries(navItems.pages).map(([name, item]) => (
               <div key={name}>
                 {item.children ? (
@@ -137,21 +165,17 @@ export function Sidebar({ collapsed }) {
                     <button
                       onClick={() => toggleSection(name)}
                       className={cn(
-                        "flex items-center w-full gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
-                        "text-sidebar-foreground hover:bg-sidebar-active"
+                        "flex items-center w-full gap-2 px-3 py-2 text-sm transition-colors",
+                        "text-sidebar-foreground hover:bg-sidebar-active rounded-lg"
                       )}
                     >
-                      <item.icon className="w-4 h-4 text-sidebar-muted" />
-                      {!collapsed && (
-                        <>
-                          <span className="flex-1 text-left">{name}</span>
-                          {expandedSections.includes(name) ? (
-                            <ChevronDown className="w-4 h-4 text-sidebar-muted" />
-                          ) : (
-                            <ChevronRight className="w-4 h-4 text-sidebar-muted" />
-                          )}
-                        </>
+                      {expandedSections.includes(name) ? (
+                        <ChevronDown className="w-4 h-4 text-sidebar-muted flex-shrink-0" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4 text-sidebar-muted flex-shrink-0" />
                       )}
+                      <SvgIcon src={item.icon} className="w-5 h-5 opacity-70 flex-shrink-0" alt={name} />
+                      {!collapsed && <span>{name}</span>}
                     </button>
                     <AnimatePresence>
                       {expandedSections.includes(name) && !collapsed && (
@@ -162,16 +186,16 @@ export function Sidebar({ collapsed }) {
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <div className="ml-7 mt-1 space-y-0.5">
+                          <div className="ml-11 mt-1 space-y-1">
                             {item.children.map((child) => (
                               <NavLink
                                 key={child.path}
                                 to={child.path}
                                 className={cn(
-                                  "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                                  "flex items-center py-2 text-sm transition-colors",
                                   isActive(child.path)
-                                    ? "text-sidebar-foreground bg-sidebar-active"
-                                    : "text-sidebar-muted hover:text-sidebar-foreground hover:bg-sidebar-active"
+                                    ? "text-sidebar-foreground"
+                                    : "text-sidebar-muted hover:text-sidebar-foreground"
                                 )}
                               >
                                 {child.name}
@@ -186,14 +210,14 @@ export function Sidebar({ collapsed }) {
                   <NavLink
                     to={item.path}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                      "flex items-center gap-2 px-3 py-2 text-sm transition-colors",
                       isActive(item.path)
-                        ? "text-sidebar-foreground bg-sidebar-active"
-                        : "text-sidebar-foreground hover:bg-sidebar-active"
+                        ? "text-sidebar-foreground bg-sidebar-active rounded-lg"
+                        : "text-sidebar-foreground hover:bg-sidebar-active rounded-lg"
                     )}
                   >
-                    <ChevronRight className="w-4 h-4 text-sidebar-muted" />
-                    <item.icon className="w-4 h-4 text-sidebar-muted" />
+                    <ChevronRight className="w-4 h-4 text-sidebar-muted flex-shrink-0" />
+                    <SvgIcon src={item.icon} className="w-5 h-5 opacity-70 flex-shrink-0" alt={name} />
                     {!collapsed && <span>{name}</span>}
                   </NavLink>
                 )}
@@ -203,28 +227,5 @@ export function Sidebar({ collapsed }) {
         </div>
       </ScrollArea>
     </aside>
-  );
-}
-
-function NavItem({ item, collapsed, isActive, isFavorite }) {
-  const Icon = item.icon;
-  
-  return (
-    <NavLink
-      to={item.path}
-      className={cn(
-        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
-        isActive
-          ? "text-sidebar-foreground bg-sidebar-active border-l-2 border-sidebar-accent -ml-0.5 pl-[calc(0.75rem+0.125rem)]"
-          : "text-sidebar-foreground hover:bg-sidebar-active",
-        isFavorite && !isActive && "text-sidebar-muted"
-      )}
-    >
-      {isFavorite && !collapsed && (
-        <span className="w-1.5 h-1.5 rounded-full bg-sidebar-muted" />
-      )}
-      {!isFavorite && <Icon className="w-4 h-4 text-sidebar-muted" />}
-      {!collapsed && <span>{item.name}</span>}
-    </NavLink>
   );
 }
